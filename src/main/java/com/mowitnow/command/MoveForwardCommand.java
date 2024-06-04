@@ -1,11 +1,11 @@
 package com.mowitnow.command;
 
-import com.mowitnow.model.ILawn;
-import com.mowitnow.model.IMower;
+import com.mowitnow.model.Lawn;
+import com.mowitnow.model.Mower;
 
 public class MoveForwardCommand implements Command {
     @Override
-    public void execute(ILawn lawn, IMower mower) {
+    public void execute(Lawn lawn, Mower mower) {
         int x = mower.getX();
         int y = mower.getY();
 

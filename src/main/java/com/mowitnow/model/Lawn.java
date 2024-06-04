@@ -1,6 +1,6 @@
 package com.mowitnow.model;
 
-public class Lawn implements ILawn {
+public class Lawn {
     private final int maxX;
     private final int maxY;
 

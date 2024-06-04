@@ -1,6 +1,6 @@
 package com.mowitnow.model;
 
-public class Mower implements IMower {
+public class Mower {
     int x;
     int y;
     Orientation orientation;

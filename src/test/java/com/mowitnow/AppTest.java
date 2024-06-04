@@ -13,8 +13,21 @@ import java.io.PrintStream;
 
 public class AppTest 
 {
+
+    private final static String VALID_FILE_PATH = "src/test/resources/file.txt";
+    private final static String VALID_FILE_EXPECTED_OUTPUT = "1 3 N\n5 1 E\n";
+
+    private final static String INVALID_FILE_PATH = "src/test/resources/invalid_file.txt";
+    private final static String INVALID_FILE_EXPECTED_OUTPUT = "1 3 N\nAn error occurred: Invalid file format: Missing mower instructions\n";
+
+    private final static String EMPTY_FILE_PATH = "src/test/resources/empty_file.txt";
+    private final static String EMPTY_FILE_EXPECTED_OUTPUT = "An error occurred: Invalid file format: The file is empty\n";
+
+    private final static String NO_FILE_PROVIDED_EXPECTED_OUTPUT = "Please provide a file path as argument\n";
+
     private ByteArrayOutputStream outContent;
     private PrintStream originalOutstream;
+
 
     @BeforeEach
     public void setUp() {
@@ -26,31 +39,28 @@ public class AppTest
     @Test
     public void shouldShowRightPosition()
     {
-        String[] args = {new File("src/test/resources/file.txt").getAbsolutePath()};
+        String[] args = {new File(VALID_FILE_PATH).getAbsolutePath()};
         App.main(args);
 
-        String expectedOutput = "1 3 N\n5 1 E\n";
-        assertEquals(normalizeLineEndings(expectedOutput), normalizeLineEndings(outContent.toString()));
+        assertEquals(normalizeLineEndings(VALID_FILE_EXPECTED_OUTPUT), normalizeLineEndings(outContent.toString()));
     }
 
     @Test
     public void shouldErrorOnInvalidFileFormat()
     {
-        String[] args = {new File("src/test/resources/invalid_file.txt").getAbsolutePath()};
+        String[] args = {new File(INVALID_FILE_PATH).getAbsolutePath()};
         App.main(args);
 
-        String expectedOutput = "1 3 N\nAn error occurred: Invalid file format: Missing mower instructions\n";
-        assertEquals(normalizeLineEndings(expectedOutput), normalizeLineEndings(outContent.toString()));
+        assertEquals(normalizeLineEndings(INVALID_FILE_EXPECTED_OUTPUT), normalizeLineEndings(outContent.toString()));
     }
 
     @Test
-    public void shouldErrorOnEmptyFileFormat()
+    public void shouldErrorOnEmptyFile()
     {
-        String[] args = {new File("src/test/resources/empty_file.txt").getAbsolutePath()};
+        String[] args = {new File(EMPTY_FILE_PATH).getAbsolutePath()};
         App.main(args);
 
-        String expectedOutput = "An error occurred: Invalid file format: The file is empty\n";
-        assertEquals(normalizeLineEndings(expectedOutput), normalizeLineEndings(outContent.toString()));
+        assertEquals(normalizeLineEndings(EMPTY_FILE_EXPECTED_OUTPUT), normalizeLineEndings(outContent.toString()));
     }
 
     @Test
@@ -59,12 +69,12 @@ public class AppTest
         String[] args = {};
         App.main(args);
 
-        String expectedOutput = "Please provide a file path as argument\n";
-        assertEquals(normalizeLineEndings(expectedOutput), normalizeLineEndings(outContent.toString()));
+        assertEquals(normalizeLineEndings(NO_FILE_PROVIDED_EXPECTED_OUTPUT), normalizeLineEndings(outContent.toString()));
     }
 
     private String normalizeLineEndings(String s) {
-        return s.replace("\r\n", "\n").replace("\r", "\n");
+        return s.replace("\r\n", "\n")
+                .replace("\r", "\n");
     }
 
     @AfterEach()

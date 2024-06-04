@@ -1,73 +1,60 @@
 package com.mowitnow.command;
 
-import com.mowitnow.model.ILawn;
-import com.mowitnow.model.IMower;
+import com.mowitnow.model.Lawn;
+import com.mowitnow.model.Mower;
 import com.mowitnow.model.Orientation;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
 public class TurnLeftCommandTest {
 
-    @Mock
-    private ILawn lawn;
+    private final Lawn lawn = new Lawn(5, 5);
 
-    @Mock
-    private IMower mower;
-
-    @InjectMocks
-    private TurnLeftCommand turnLeftCommand;
+    private final TurnLeftCommand turnLeftCommand = new TurnLeftCommand();
 
     @Test
     public void shouldTurnToWest() {
-        initializeMower(Orientation.N);
+        Mower mower = new Mower(1, 1, Orientation.N);
 
         turnLeftCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setOrientation(Orientation.W);
-        verify(mower, never()).setX(anyInt());
-        verify(mower, never()).setY(anyInt());
+        assertEquals(1, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.W, mower.getOrientation());
     }
 
     @Test
     public void shouldTurnToSouth() {
-        initializeMower(Orientation.W);
+        Mower mower = new Mower(1, 1, Orientation.W);
 
         turnLeftCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setOrientation(Orientation.S);
-        verify(mower, never()).setX(anyInt());
-        verify(mower, never()).setY(anyInt());
+        assertEquals(1, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.S, mower.getOrientation());
     }
 
     @Test
     public void shouldTurnToEast() {
-        initializeMower(Orientation.S);
+        Mower mower = new Mower(1, 1, Orientation.S);
 
         turnLeftCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setOrientation(Orientation.E);
-        verify(mower, never()).setX(anyInt());
-        verify(mower, never()).setY(anyInt());
+        assertEquals(1, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.E, mower.getOrientation());
     }
 
     @Test
     public void shouldTurnToNorth() {
-        initializeMower(Orientation.E);
+
+        Mower mower = new Mower(1, 1, Orientation.E);
 
         turnLeftCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setOrientation(Orientation.N);
-        verify(mower, never()).setX(anyInt());
-        verify(mower, never()).setY(anyInt());
-    }
-
-    private void initializeMower(Orientation orientation){
-        when(mower.getOrientation()).thenReturn(orientation);
+        assertEquals(1, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.N, mower.getOrientation());
     }
 }

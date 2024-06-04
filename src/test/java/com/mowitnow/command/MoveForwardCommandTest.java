@@ -1,132 +1,119 @@
 package com.mowitnow.command;
 
-import com.mowitnow.model.ILawn;
-import com.mowitnow.model.IMower;
+import com.mowitnow.model.Lawn;
+import com.mowitnow.model.Mower;
 import com.mowitnow.model.Orientation;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-@ExtendWith(MockitoExtension.class)
 public class MoveForwardCommandTest
 {
-    @Mock
-    private ILawn lawn;
-
-    @Mock
-    private IMower mower;
-
-    @InjectMocks
-    private MoveForwardCommand moveForwardCommand;
+    private final MoveForwardCommand moveForwardCommand = new MoveForwardCommand();
 
     @Test
     public void shouldMoveForwardNorth()
     {
-        when(lawn.maxY()).thenReturn(5);
-        initializeMower(1, 1, Orientation.N);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(1, 1, Orientation.N);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setY(2);
-        verify(mower, never()).setX(anyInt());
+        assertEquals(1, mower.getX());
+        assertEquals(2, mower.getY());
+        assertEquals(Orientation.N, mower.getOrientation());
     }
 
     @Test
     public void shouldMoveForwardEast()
     {
-        when(lawn.maxX()).thenReturn(5);
-        initializeMower(1, 1, Orientation.E);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(1, 1, Orientation.E);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setX(2);
-        verify(mower, never()).setY(anyInt());
-        verify(mower, never()).setOrientation(any(Orientation.class));
+        assertEquals(2, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.E, mower.getOrientation());
     }
 
     @Test
     public void shouldMoveForwardSouth()
     {
-        initializeMower(1, 1, Orientation.S);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(1, 1, Orientation.S);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setY(0);
-        verify(mower, never()).setX(anyInt());
-        verify(mower, never()).setOrientation(any(Orientation.class));
+        assertEquals(1, mower.getX());
+        assertEquals(0, mower.getY());
+        assertEquals(Orientation.S, mower.getOrientation());
     }
 
     @Test
     public void shouldMoveForwardWest()
     {
-        initializeMower(1, 1, Orientation.W);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(1, 1, Orientation.W);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setX(0);
-        verify(mower, never()).setY(anyInt());
-        verify(mower, never()).setOrientation(any(Orientation.class));
+        assertEquals(0, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.W, mower.getOrientation());
     }
 
     @Test
     public void shouldNotMoveForwardNorth()
     {
-        when(lawn.maxY()).thenReturn(5);
-        initializeMower(1, 5, Orientation.N);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(1, 5, Orientation.N);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setY(5);
-        verify(mower, never()).setX(anyInt());
-        verify(mower, never()).setOrientation(any(Orientation.class));
+        assertEquals(1, mower.getX());
+        assertEquals(5, mower.getY());
+        assertEquals(Orientation.N, mower.getOrientation());
     }
 
     @Test
     public void shouldNotMoveForwardEast()
     {
-        when(lawn.maxX()).thenReturn(5);
-        initializeMower(5, 1, Orientation.E);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(5, 1, Orientation.E);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setX(5);
-        verify(mower, never()).setY(anyInt());
-        verify(mower, never()).setOrientation(any(Orientation.class));
+        assertEquals(5, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.E, mower.getOrientation());
     }
 
     @Test
     public void shouldNotMoveForwardSouth()
     {
-        initializeMower(1, 0, Orientation.S);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(1, 0, Orientation.S);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setY(0);
-        verify(mower, never()).setX(anyInt());
-        verify(mower, never()).setOrientation(any(Orientation.class));
+        assertEquals(1, mower.getX());
+        assertEquals(0, mower.getY());
+        assertEquals(Orientation.S, mower.getOrientation());
     }
 
     @Test
     public void shouldNotMoveForwardWest()
     {
-        initializeMower(0, 1, Orientation.W);
+        Lawn lawn = new Lawn(5, 5);
+        Mower mower = new Mower(0, 1, Orientation.W);
 
         moveForwardCommand.execute(lawn, mower);
 
-        verify(mower, times(1)).setX(0);
-        verify(mower, never()).setY(anyInt());
-        verify(mower, never()).setOrientation(any(Orientation.class));
-    }
-
-    private void initializeMower(int x, int y, Orientation orientation){
-        when(mower.getX()).thenReturn(x);
-        when(mower.getY()).thenReturn(y);
-        when(mower.getOrientation()).thenReturn(orientation);
+        assertEquals(0, mower.getX());
+        assertEquals(1, mower.getY());
+        assertEquals(Orientation.W, mower.getOrientation());
     }
 }

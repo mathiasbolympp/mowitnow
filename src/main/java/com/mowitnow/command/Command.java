@@ -1,9 +1,8 @@
 package com.mowitnow.command;
 
-import com.mowitnow.model.ILawn;
-import com.mowitnow.model.IMower;
+import com.mowitnow.model.Lawn;
+import com.mowitnow.model.Mower;
 
-@FunctionalInterface
 public interface Command {
-    void execute(ILawn lawn, IMower mower);
+    void execute(Lawn lawn, Mower mower);
 }
